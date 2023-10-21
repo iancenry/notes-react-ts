@@ -3,6 +3,7 @@ import CreatableReactSelect from 'react-select/creatable'
 import { NewNoteProps, Tag } from '../@types/notes'
 import { useState } from 'react'
 import { v4 as uuidV4 } from 'uuid'
+import { Button } from '.'
 
 const NoteForm = ({ onAddTag, availableTags }: NewNoteProps) => {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([])
@@ -78,20 +79,10 @@ const NoteForm = ({ onAddTag, availableTags }: NewNoteProps) => {
       </div>
 
       <div className="flex flex-row gap-4 justify-end">
-        <button
-          type="submit"
-          className="outline outline-1 outline-sky-500 bg-sky-500 hover:bg-sky-700 px-8 py-2 rounded-md text-xl"
-        >
-          Save
-        </button>
+        <Button hasBackground={true} text="Save" isSubmit={true} />
 
         <Link to="..">
-          <button
-            type="button"
-            className="outline outline-2 outline-gray-300 px-5 py-2 rounded-md text-xl"
-          >
-            Cancel
-          </button>
+          <Button hasBackground={false} text="Cancel" />
         </Link>
       </div>
     </Form>
