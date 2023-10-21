@@ -1,3 +1,4 @@
+import { redirect } from 'react-router-dom'
 import { NoteData } from '../@types/notes'
 
 type ActionProp = {
@@ -13,8 +14,7 @@ export const formAction =
     const tags = formData.get('tags')
     const selectedTags = JSON.parse(tags! as string)
 
-    console.log(title, markdown, tags)
     onCreateNote({ title: title, markdown: markdown, tags: selectedTags })
 
-    return null
+    return redirect('..')
   }
