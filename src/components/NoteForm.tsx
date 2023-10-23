@@ -4,9 +4,12 @@ import { NewNoteProps, Tag } from '../@types/notes'
 import { useState } from 'react'
 import { v4 as uuidV4 } from 'uuid'
 import { Button } from '.'
+import { useNote } from '../utils/hooks'
 
 const NoteForm = ({ onAddTag, availableTags }: NewNoteProps) => {
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([])
+  // property used on edit mode
+  const note = useNote()
+  const [selectedTags, setSelectedTags] = useState<Tag[]>(note?.tags || [])
 
   return (
     <Form method="post">
@@ -20,6 +23,8 @@ const NoteForm = ({ onAddTag, availableTags }: NewNoteProps) => {
               type="text"
               name="title"
               className="mt-1 px-3 py-2 h-12 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+              // when edit note only
+              defaultValue={note?.title}
             />
           </label>
         </div>
@@ -74,8 +79,14 @@ const NoteForm = ({ onAddTag, availableTags }: NewNoteProps) => {
             cols={30}
             rows={15}
             className="mt-1 px-3 py-2  bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+            // when edit note only
+            defaultValue={note?.markdown}
           ></textarea>
         </label>
+        {note?.id && (
+          /* for use when editing a note */
+          <input name="editNoteId" value={note.id} hidden readOnly />
+        )}
       </div>
 
       <div className="flex flex-row gap-4 justify-end">
