@@ -12,7 +12,9 @@ const Button = ({ hasBackground, text, isSubmit = false }: Button) => {
         hasBackground
           ? 'bg-blue-600 text-gray-100'
           : 'outline outline-1 outline-gray-800 text-gray-600'
-      }  cursor-pointer rounded-md text-xl shadow-md active:shadow-2xl px-5 py-2 md:px-8 md:py-3`}
+      } ${
+        text === 'Delete' && 'text-red-600'
+      }  cursor-pointer rounded-md text-xl shadow-md active:shadow-2xl  px-4 py-1 md:px-8 md:py-3`}
     >
       {text}
     </button>
