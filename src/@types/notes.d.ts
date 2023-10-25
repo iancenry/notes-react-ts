@@ -39,6 +39,8 @@ export type SimplifiedNote = {
 export type NoteListProps = {
   availableTags: Tag[]
   notes: SimplifiedNote[]
+  onUpdateTag: (id: string, label: string) => void
+  onDeleteTag: (id: string) => void
 }
 
 export type NoteLayoutProps = {
@@ -48,4 +50,12 @@ export type NoteLayoutProps = {
 export type EditNoteProps = {
   onAddTag: (tag: Tag) => void
   availableTags: Tag[]
+}
+
+export type EditTagsModalProps = {
+  isOpen: boolean
+  setIsOpen: Dispatch<boolean>
+  availableTags: Tag[]
+  onUpdateTag: (id: string, label: string) => void
+  onDeleteTag: (id: string) => void
 }

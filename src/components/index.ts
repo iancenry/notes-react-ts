@@ -6,6 +6,7 @@ import Button from './Button'
 import NoteLayout from './NoteLayout'
 import NoteDetail from './NoteDetail'
 import EditNote from './EditNote'
+import EditTagsModal from './EditTagsModal'
 
 export {
   NewNote,
@@ -16,4 +17,5 @@ export {
   NoteLayout,
   NoteDetail,
   EditNote,
+  EditTagsModal,
 }

@@ -5,9 +5,15 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom'
-import { NewNote } from './components'
+import {
+  EditNote,
+  NewNote,
+  NoteDetail,
+  NoteLayout,
+  NoteList,
+} from './components'
 
-import { formAction } from './utils/utils'
+import { editFormAction, formAction } from './utils/utils'
 import { NoteData, RawNote, Tag } from './@types/notes'
 import { useLocalStorage } from './useLocalStorage'
 import { useMemo } from 'react'
@@ -36,22 +42,72 @@ function App() {
     ])
   }
 
+  const onUpdateNote = (id: string, { tags, ...data }: NoteData) => {
+    setNotes((prevNotes) => {
+      return prevNotes.map((note) => {
+        if (note.id == id) {
+          return { ...note, ...data, tagIds: tags.map((tag) => tag.id) }
+        } else {
+          return note
+        }
+      })
+    })
+  }
+
+  const onDeleteNote = (id: string) => {
+    setNotes((prevNotes) => {
+      return prevNotes.filter((note) => note.id !== id)
+    })
+  }
+
   const addTag = (tag: Tag) => {
     setTags((prev) => [...prev, tag])
+  }
+
+  function updateTag(id: string, label: string) {
+    setTags((prevTags) => {
+      return prevTags.map((tag) => {
+        if (tag.id == id) {
+          return { ...tag, label }
+        } else {
+          return tag
+        }
+      })
+    })
+  }
+
+  function deleteTag(id: string) {
+    setTags((prevTags) => {
+      return prevTags.filter((tag) => tag.id !== id)
+    })
   }
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        <Route path="/" element={<>h</>} />
+        <Route
+          path="/"
+          element={
+            <NoteList
+              availableTags={tags}
+              notes={notesWithTags}
+              onUpdateTag={updateTag}
+              onDeleteTag={deleteTag}
+            />
+          }
+        />
         <Route
           path="/new"
           element={<NewNote onAddTag={addTag} availableTags={tags} />}
           action={formAction({ onCreateNote })}
         />
-        <Route path="/:id">
-          <Route index element={<></>} />
-          <Route path="edit" element={<></>} />
+        <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
+          <Route index element={<NoteDetail onDeleteNote={onDeleteNote} />} />
+          <Route
+            path="edit"
+            element={<EditNote onAddTag={addTag} availableTags={tags} />}
+            action={editFormAction({ onUpdateNote })}
+          />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Route>
@@ -59,7 +115,7 @@ function App() {
   )
 
   return (
-    <div className="my-4 mx-24">
+    <div className="mt-9 mx-6 md:my-12 md:mx-24 lg:mx-80">
       <RouterProvider router={router} />
     </div>
   )
