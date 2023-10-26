@@ -6,7 +6,9 @@ const NoteCard = ({ id, title, tags }: SimplifiedNote) => {
     <Link to={`/${id}`}>
       <div className="h-96 w-full rounded-md flex justify-center items-center shadow-lg hover:shadow-xl hover:-translate-y-4 transition-all">
         <div className="text-center">
-          <span className="text-2xl font-semibold">{title}</span>
+          <span className="text-2xl font-semibold">{`${
+            title.length > 30 ? title.substring(0, 30) + '...' : title
+          }`}</span>
 
           {tags.length > 0 && (
             <div className="flex flex-row flex-wrap justify-center space-x-6 mt-7">
